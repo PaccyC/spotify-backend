@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { createSongDto } from './dto/CreateSong.dto';
 
 @Injectable()
 export class SongsService {
 
 
-    async createSong(){
-
+    async createSong(createSongDto:createSongDto){
+    
     }
 
     // Getting all songs
