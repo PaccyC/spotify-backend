@@ -1,11 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
-import { SongsModule } from '../src/songs/songs.module';
+import { SongsModule } from './modules/songs/songs.module';
 import { LoggerMiddleware } from 'logger.middleware';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 @Module({
-  imports: [SongsModule, AuthModule],
+  imports: [SongsModule, AuthModule, PrismaModule],
   controllers: [],
   providers: [],
 })
