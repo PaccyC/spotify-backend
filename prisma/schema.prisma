@@ -68,7 +68,7 @@ model Playlist{
 
   user User @relation(fields: [userId],references: [id])
 
-  songId Int
+  songId Int?
 
   song Song? @relation(fields: [songId],references: [id])
 
