@@ -9,9 +9,20 @@ export class SongsService {
 
     async createSong(createSongDto:createSongDto){
     
-        const song = await this.prisma.song.create({
-            data:createSongDto
+        const{artists, ...rest} = createSongDto;
+       
+        const song= await this.prisma.song.create({
+            data:{
+                ...rest,
+                datereleased: new Date(createSongDto.datereleased), // Convert to Date object
+                duration: new Date(`1970-01-01T${createSongDto.duration}Z`),
+                artists:{
+                    connect:artists.map(id =>({id}))
+                }
+            }
         })
+
+        return song;
     }
 
     // Getting all songs

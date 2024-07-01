@@ -9,6 +9,7 @@ import { UserModule } from './modules/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserService } from './modules/user/user.service';
+import { ArtistsModule } from './modules/artists/artists.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,7 +29,9 @@ import { UserService } from './modules/user/user.service';
  }),
  PrismaModule,
  
- SongsModule],
+ SongsModule,
+ 
+ ArtistsModule],
   providers: [UserService],
 
 })

@@ -31,9 +31,11 @@ model Song{
   id Int @id @default(autoincrement())
 
   title String 
-  artists Artist[]
+
+  artistId Int
+  artists Artist[] 
   datereleased DateTime
-  duration String
+  duration DateTime
 
   @@map("songs")
 }
