@@ -31,9 +31,7 @@ model Song{
   id Int @id @default(autoincrement())
 
   title String 
-
-  artistId Int
-  artists Artist[] 
+  artists Artist[]
   datereleased DateTime
   duration DateTime
 
@@ -47,9 +45,9 @@ model Artist{
   image String? 
 
   // relationship
-  songId Int
+  songId Int?
   
-  song Song @relation(fields: [songId], references: [id])
+  song Song? @relation(fields: [songId], references: [id])
 
-
+@@map("artists")
 }

@@ -1,7 +1,7 @@
 import { IsArray, IsDateString, IsInt, IsMilitaryTime, IsNotEmpty, IsString } from "class-validator";
 
 
-export class createSongDto {
+export class CreateSongDto {
 
     @IsString()
     @IsNotEmpty()
@@ -19,7 +19,7 @@ export class createSongDto {
     @IsMilitaryTime()
     @IsNotEmpty()
     @IsString()
-    duration: Date
+    duration: string
 
 
 }
