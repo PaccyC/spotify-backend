@@ -8,6 +8,7 @@ import { UserModule } from './modules/user/user.module';
 
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserService } from './modules/user/user.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,6 +29,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
  PrismaModule,
  
  SongsModule],
+  providers: [UserService],
 
 })
 

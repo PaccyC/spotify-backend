@@ -26,3 +26,28 @@ model  User {
 
   @@map("users")
 }
+
+model Song{
+  id Int @id @default(autoincrement())
+
+  title String 
+  artists Artist[]
+  datereleased DateTime
+  duration String
+
+  @@map("songs")
+}
+
+model Artist{
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  image String? 
+
+  // relationship
+  songId Int
+  
+  song Song @relation(fields: [songId], references: [id])
+
+
+}
