@@ -22,6 +22,9 @@ model  User {
   lastName String?
   username String @unique
   password String 
+
+  playlists Playlist[]
+  
   
 
   @@map("users")
@@ -34,6 +37,8 @@ model Song{
   artists Artist[]
   datereleased DateTime
   duration DateTime
+
+  playlists Playlist[] 
 
   @@map("songs")
 }
@@ -50,4 +55,23 @@ model Artist{
   song Song? @relation(fields: [songId], references: [id])
 
 @@map("artists")
+}
+
+// Playlist model
+
+model Playlist{
+  id Int @id @default(autoincrement())
+
+  name String
+  description String?
+  userId Int
+
+  user User @relation(fields: [userId],references: [id])
+
+  songId Int
+
+  song Song? @relation(fields: [songId],references: [id])
+
+@@map("playlists")
+
 }
