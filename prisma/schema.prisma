@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,11 +5,9 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-  
 }
 
-
-model  User {
+model User {
   id Int @id @default(autoincrement())
   email String @unique
   firstName String? 
@@ -25,25 +17,21 @@ model  User {
 
   playlists Playlist[]
   
-  
-
   @@map("users")
 }
 
-model Song{
+model Song {
   id Int @id @default(autoincrement())
-
   title String 
   artists Artist[]
   datereleased DateTime
   duration DateTime
-
-  playlists Playlist[] 
+  playlists Playlist[] @relation("PlaylistSongs")
 
   @@map("songs")
 }
 
-model Artist{
+model Artist {
   id Int @id @default(autoincrement())
   name String
   description String
@@ -51,27 +39,18 @@ model Artist{
 
   // relationship
   songId Int?
-  
   song Song? @relation(fields: [songId], references: [id])
 
-@@map("artists")
+  @@map("artists")
 }
 
-// Playlist model
-
-model Playlist{
+model Playlist {
   id Int @id @default(autoincrement())
-
   name String
-  description String?
+  description String
   userId Int
+  user User @relation(fields: [userId], references: [id])
+  songs Song[] @relation("PlaylistSongs")
 
-  user User @relation(fields: [userId],references: [id])
-
-  songId Int?
-
-  song Song? @relation(fields: [songId],references: [id])
-
-@@map("playlists")
-
+  @@map("playlists")
 }
