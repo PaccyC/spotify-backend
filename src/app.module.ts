@@ -8,14 +8,12 @@ import { UserModule } from './modules/user/user.module';
 
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserService } from './modules/user/user.service';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { PlaylistsModule } from './modules/playlists/playlists.module';
 import { SearchModule } from './modules/search/search.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { join } from 'path'
 import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
-import { strict } from 'assert';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -54,7 +52,7 @@ import { strict } from 'assert';
     
   },
   defaults:{
-    from: ""
+    from:`Spotify Clone Support <${process.env.FROM_EMAIL}>`
   },
   template:{
     dir:join(__dirname,'templates'),

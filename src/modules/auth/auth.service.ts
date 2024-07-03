@@ -4,12 +4,14 @@ import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto, SigninDto } from './dto';
 import * as bcrypt from 'bcryptjs';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwt: JwtService,
+    private mailerService:MailerService,
   ) {}
 
   async signup(dto: CreateUserDto) {
@@ -49,23 +51,6 @@ export class AuthService {
       throw error;  
     }
   }
-
-  async signToken(userId: number, email: string): Promise<{ access_token: string }> {
-    const payload = {
-      sub: userId,
-      email,
-    };
-
-    const token = await this.jwt.signAsync(payload, {
-      secret: process.env.SECRET,
-      expiresIn: '1d',
-    });
-
-    return {
-      access_token: token,
-    };
-  }
-
   async signin(dto: SigninDto) {
     try {
       const user = await this.prisma.user.findUnique({
@@ -90,4 +75,23 @@ export class AuthService {
       throw error;  // Rethrow any errors
     }
   }
+
+  async signToken(userId: number, email: string): Promise<{ access_token: string }> {
+    const payload = {
+      sub: userId,
+      email,
+    };
+
+    const token = await this.jwt.signAsync(payload, {
+      secret: process.env.SECRET,
+      expiresIn: '1d',
+    });
+
+    return {
+      access_token: token,
+    };
+  }
+
+  // Password resetting
+ 
 }
