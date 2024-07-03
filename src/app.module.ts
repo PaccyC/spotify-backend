@@ -12,7 +12,10 @@ import { UserService } from './modules/user/user.service';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { PlaylistsModule } from './modules/playlists/playlists.module';
 import { SearchModule } from './modules/search/search.module';
-import { MailerModule } from './modules/mailer/mailer.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { join } from 'path'
+import {HandlebarsAdapter} from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter'
+import { strict } from 'assert';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -39,10 +42,30 @@ import { MailerModule } from './modules/mailer/mailer.module';
  PlaylistsModule,
  
  SearchModule,
+ MailerModule.forRoot({
+  transport:{
+    host:'smtp.gmail.com',
+    port:465,
+    secure:true,
+    auth:{
+      user:process.env.GMAIL_USER,
+      pass:process.env.GMAIL_PASS
+    },
+    
+  },
+  defaults:{
+    from: ""
+  },
+  template:{
+    dir:join(__dirname,'templates'),
+    adapter: new HandlebarsAdapter(),
+    options:{
+      strict:true
+    }
+  }
+ })
  
- MailerModule],
-  providers: [UserService],
-
+  ]
 })
 
 
