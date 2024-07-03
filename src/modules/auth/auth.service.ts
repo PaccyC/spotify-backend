@@ -5,7 +5,6 @@ import { CreateUserDto, SigninDto } from './dto';
 import * as bcrypt from 'bcryptjs';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { MailerService } from '@nestjs-modules/mailer';
-
 @Injectable()
 export class AuthService {
   constructor(
@@ -92,6 +91,46 @@ export class AuthService {
     };
   }
 
-  // Password resetting
+  // sending password reset email
+
+  async sendPasswordResetEmail(email:string){
+    const user = await this.prisma.user.findUnique({
+      where:{
+        email
+      }
+    });
+
+    if(!user) {
+      throw new Error("User not found")
+    }
+
+    const token= this.jwt.sign({email},{expiresIn:"1d"})
+    const url = `http://localhost:3000/auth/reset-password?token=${token}`;
+
+    await this.mailerService.sendMail({
+     to:email,
+     subject:'Reset Password',
+     template:'./reset-passwrd',
+     context:{
+      name:user.username,
+      url,
+     },
+    });
+
+  }
+
+  // resetting a password
+
+  async resetPassword(token:string,newPassword:string){
+    const decoded= this.jwt.verify(token);
+    const email= decoded.email;
+     
+    const hashedPassword= await bcrypt.hash(newPassword,10)
+
+    await this.prisma.user.update({
+      where:{email},
+      data:{password:hashedPassword},
+    })
+  }
  
 }
