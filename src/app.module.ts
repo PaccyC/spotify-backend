@@ -12,6 +12,7 @@ import { UserService } from './modules/user/user.service';
 import { ArtistsModule } from './modules/artists/artists.module';
 import { PlaylistsModule } from './modules/playlists/playlists.module';
 import { SearchModule } from './modules/search/search.module';
+import { MailerModule } from './modules/mailer/mailer.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -37,7 +38,9 @@ import { SearchModule } from './modules/search/search.module';
  
  PlaylistsModule,
  
- SearchModule],
+ SearchModule,
+ 
+ MailerModule],
   providers: [UserService],
 
 })
